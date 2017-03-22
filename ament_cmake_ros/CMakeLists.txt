@@ -4,6 +4,8 @@ project(ament_cmake_ros NONE)
 
 find_package(ament_cmake REQUIRED)
 
+ament_export_dependencies(ament_cmake)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
