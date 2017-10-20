@@ -15,3 +15,4 @@
 # copied from ament_cmake_ros/ament_cmake_ros-extras.cmake
 
 include("${ament_cmake_ros_DIR}/build_shared_libs.cmake")
+add_definitions(-DROS_PACKAGE_NAME=\"${PROJECT_NAME}\")
