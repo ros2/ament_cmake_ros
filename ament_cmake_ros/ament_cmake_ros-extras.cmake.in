@@ -15,9 +15,4 @@
 # generated from ament_cmake_ros/ament_cmake_ros-extras.cmake.in
 
 include("${ament_cmake_ros_DIR}/build_shared_libs.cmake")
-
-if(NOT _AMENT_PACKAGE_NAME)
-  find_package(ament_cmake_core REQUIRED)
-  ament_package_xml()
-endif()
-add_definitions(-DROS_PACKAGE_NAME="${_AMENT_PACKAGE_NAME}")
+add_definitions(-DROS_PACKAGE_NAME=\"${PROJECT_NAME}\")
