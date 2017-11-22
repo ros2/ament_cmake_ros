@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# copied from ament_cmake_ros/ament_cmake_ros-extras.cmake
+# generated from ament_cmake_ros/ament_cmake_ros-extras.cmake.in
 
 include("${ament_cmake_ros_DIR}/build_shared_libs.cmake")
+add_definitions(-DROS_PACKAGE_NAME=\"${PROJECT_NAME}\")

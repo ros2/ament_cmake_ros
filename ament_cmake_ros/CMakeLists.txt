@@ -12,7 +12,7 @@ if(BUILD_TESTING)
 endif()
 
 ament_package(
-  CONFIG_EXTRAS "ament_cmake_ros-extras.cmake"
+  CONFIG_EXTRAS "ament_cmake_ros-extras.cmake.in"
 )
 
 install(
