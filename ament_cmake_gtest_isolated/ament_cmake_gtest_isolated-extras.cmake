@@ -15,6 +15,5 @@
 # copied from ament_cmake_pytest/ament_cmake_pytest-extras.cmake
 
 find_package(ament_cmake_gtest QUIET REQUIRED)
-find_package(domain_coordinator QUIET REQUIRED)
 
 include("${ament_cmake_gtest_isolated_DIR}/ament_add_gtest_isolated.cmake")

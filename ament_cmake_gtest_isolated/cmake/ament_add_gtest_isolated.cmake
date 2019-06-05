@@ -19,7 +19,7 @@
 
 function(ament_add_gtest_isolated target)
 
-  set(RUNNER "RUNNER" "${domain_coordinator_DIR}/run_test_isolated.py")
+  set(RUNNER "RUNNER" "${ament_cmake_test_isolated_DIR}/run_test_isolated.py")
 
   ament_add_gtest(
     "${target}"

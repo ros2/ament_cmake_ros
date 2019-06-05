@@ -19,7 +19,7 @@
 
 function(ament_add_pytest_isolated_test testname path)
 
-  set(RUNNER "${domain_coordinator_DIR}/run_test_isolated.py")
+  set(RUNNER "${ament_cmake_test_isolated_DIR}/run_test_isolated.py")
 
   ament_add_pytest_test(
     "${testname}" "${path}"
