@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#
+# Add a gtest that runs with ROS_DOMAIN_ID isolation.
+#
+# Parameters are the same as ament_add_gtest
+
 function(ament_add_gtest_isolated target)
 
   set(RUNNER "RUNNER" "${domain_coordinator_DIR}/run_test_isolated.py")
