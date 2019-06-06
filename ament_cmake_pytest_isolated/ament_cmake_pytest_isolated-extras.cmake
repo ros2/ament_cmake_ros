@@ -1,4 +1,4 @@
-# Copyright 2017 Open Source Robotics Foundation, Inc.
+# Copyright 2019 Open Source Robotics Foundation, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# copied from ament_cmake_pytest/ament_cmake_pytest-extras.cmake
-
 find_package(ament_cmake_pytest QUIET REQUIRED)
+find_package(ament_cmake_test_isolated REQUIRED)
 
 include("${ament_cmake_pytest_isolated_DIR}/ament_add_pytest_isolated.cmake")
