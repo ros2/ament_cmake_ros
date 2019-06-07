@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(ament_cmake_gtest_isolated)
+project(ament_cmake_ros_isolated_gtest)
 
 find_package(ament_cmake REQUIRED)
 
 ament_package(
-  CONFIG_EXTRAS "ament_cmake_gtest_isolated-extras.cmake"
+  CONFIG_EXTRAS "ament_cmake_ros_isolated_gtest-extras.cmake"
 )
 
 install(

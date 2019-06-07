@@ -32,8 +32,6 @@ class _sockwrapper():
 
 
 class _default_selector:
-    # By default, when we try to get a unique domain ID we'll start with a random
-    # value, then increment from there until we find one that isn't taken
 
     def __init__(self):
         # When we need to coordinate 10 or 20 domains, it's about 10x faster
@@ -57,15 +55,20 @@ def get_coordinated_domain_id(*, selector=None):
     """
     Get a ROS_DOMAIN_ID from 1 to 100 that will not conflict with other ROS_DOMAIN_IDs.
 
-    Other instances of will use this same function to generate ROS_DOMAIN_IDs
-    so that no two runs on the same system should conflict with one-another
-    by default.  This is similar to the ROS1 rostest behavior of putting the ROS master
-    on a unique port
+    Processes can use get_coordinated_domain_id to generate ROS_DOMAIN_IDs that allow them to
+    use ROS2 without unexpected cross-talk between processes.
+    This is similar to the ROS1 rostest behavior of putting the ROS master on a unique port.
+
+    Users of get_coordintaed_gomain_id must keep the returned object alive.  If the returned
+    object is garbage collected, the ROS_DOMAIN_ID it represents is returned to the pool
+    of available values.
     """
     if selector is None:
         selector = _default_selector()
 
-    # Try 100 times to get a unique ROS domain ID
+    # Try 100 times to get a unique ROS domain ID.  The default number of parallel colcon
+    # test runners is 12, so it's extremely unlikely that more than 12 ROS_DOMAIN_IDs need
+    # to be coordinated at once.
     for attempt in range(100):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:

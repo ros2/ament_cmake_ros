@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-find_package(ament_cmake_gtest QUIET REQUIRED)
-find_package(ament_cmake_test_isolated REQUIRED)
+find_package(ament_cmake_pytest QUIET REQUIRED)
+find_package(ament_cmake_ros_isolated_test REQUIRED)
 
-include("${ament_cmake_gtest_isolated_DIR}/ament_add_gtest_isolated.cmake")
+include("${ament_cmake_ros_isolated_pytest_DIR}/ament_add_ros_isolated_pytest.cmake")

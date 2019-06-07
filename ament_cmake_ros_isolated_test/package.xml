@@ -1,19 +1,17 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
-  <name>ament_cmake_gtest_isolated</name>
+  <name>ament_cmake_ros_isolated_test</name>
   <version>0.7.0</version>
-  <description>Adds ability to add gtests isolated with ROS_DOMAIN_ID</description>
+  <description>Provides an alternative test runner to ament_cmake_test that provides ROS_DOMAIN_ID isolation</description>
   <maintainer email="pete.baughman@apex.ai">Pete Baughman</maintainer>
   <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-
-  <buildtool_export_depend>ament_cmake_core</buildtool_export_depend>
-  <buildtool_export_depend>ament_cmake_gtest</buildtool_export_depend>
-  <buildtool_export_depend>ament_cmake_test_isolated</buildtool_export_depend>
+  <depend>domain_coordinator</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
   </export>
+
 </package>
