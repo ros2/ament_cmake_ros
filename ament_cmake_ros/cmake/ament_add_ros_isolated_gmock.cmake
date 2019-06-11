@@ -27,7 +27,7 @@
 
 function(ament_add_ros_isolated_gmock target)
 
-  set(RUNNER "RUNNER" "${ament_cmake_ros_isolated_test_DIR}/run_test_isolated.py")
+  set(RUNNER "RUNNER" "${ament_cmake_ros_DIR}/run_test_isolated.py")
 
   ament_add_gmock(
     "${target}"
