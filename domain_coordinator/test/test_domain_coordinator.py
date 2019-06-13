@@ -19,6 +19,14 @@ import domain_coordinator
 
 class TestUniqueness(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        # If a ros_isolated test (that uses the domain coordinator) runs at the same time as the
+        # domain_coordinator test, then the domain_coordinator tests may fail.
+        # When we're self-testing the domain_coordinator, select a different PORT_BASE so the
+        # the ports used by the test are different than the ports used for real
+        domain_coordinator._PORT_BASE += 100
+
     def test_quickly(self):
         """
         Quick test with false negatives, but simple and easy to understand.
