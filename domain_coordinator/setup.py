@@ -10,6 +10,11 @@ setup(
     packages=[
         'domain_coordinator',
     ],
+    data_files=[
+        ('share/' + package_name, ['package.xml']),
+        ('share/ament_index/resource_index/packages',
+            ['resource/' + package_name]),
+    ],
     install_requires=['setuptools'],
     zip_safe=True,
     author='Pete Baughman',
