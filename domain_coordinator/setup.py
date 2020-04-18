@@ -6,7 +6,7 @@ package_name = 'domain_coordinator'
 
 setup(
     name=package_name,
-    version='0.8.0',
+    version='0.9.0',
     packages=[
         'domain_coordinator',
     ],
