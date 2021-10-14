@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import contextlib
 import os
 import sys
 
@@ -28,10 +29,9 @@ if __name__ == '__main__':
     # This is to allow tests to run in parallel and not have ROS cross-talk.
     # If the user needs to debug a test and they don't have ROS_DOMAIN_ID set in their environment
     # they can disable isolation by setting the DISABLE_ROS_ISOLATION environment variable.
-    if 'ROS_DOMAIN_ID' not in os.environ and 'DISABLE_ROS_ISOLATION' not in os.environ:
-        # must keep domain_id as a local variable to keep it alive
-        domain_id = domain_coordinator.get_coordinated_domain_id()
-        print('Running with ROS_DOMAIN_ID {}'.format(domain_id))
-        os.environ['ROS_DOMAIN_ID'] = str(domain_id)
-
-    sys.exit(ament_cmake_test.main())
+    with contextlib.ExitStack() as stack:
+        if 'ROS_DOMAIN_ID' not in os.environ and 'DISABLE_ROS_ISOLATION' not in os.environ:
+            domain_id = stack.enter_context(domain_coordinator.domain_id())
+            print('Running with ROS_DOMAIN_ID {}'.format(domain_id))
+            os.environ['ROS_DOMAIN_ID'] = str(domain_id)
+        sys.exit(ament_cmake_test.main())

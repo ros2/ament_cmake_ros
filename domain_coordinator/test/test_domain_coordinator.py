@@ -17,7 +17,8 @@ import unittest
 import domain_coordinator
 
 
-class TestUniqueness(unittest.TestCase):
+class TestDomainCoordinator(unittest.TestCase):
+    """Verify that the domain_coordinator.domain_id() context works as intended."""
 
     @classmethod
     def setUpClass(cls):
@@ -25,81 +26,42 @@ class TestUniqueness(unittest.TestCase):
         # domain_coordinator test, then the domain_coordinator tests may fail.
         # When we're self-testing the domain_coordinator, select a different PORT_BASE so the
         # the ports used by the test are different than the ports used for real
-        domain_coordinator._PORT_BASE += 100
+        domain_coordinator.impl.PORT_BASE += 100
 
-    def test_quickly(self):
-        """
-        Quick test with false negatives, but simple and easy to understand.
+    def test_uniqueness(self):
+        """Verify that domain_id() produces no collisions."""
+        def nested_contexts(n):
+            if n <= 0:
+                return
+            with domain_coordinator.domain_id() as domain_id:
+                self.assertNotIn(domain_id, nested_contexts.used_domains)
+                nested_contexts.used_domains.add(domain_id)
+                nested_contexts(n - 1)
+                nested_contexts.used_domains.remove(domain_id)
 
-        See that we generate unique domains.  Will not necessarily find problems because domains
-        are selected randomly.  We're only asking for 10 domains out of 100 so most of the time
-        we'll probably get lucky.
-        """
-        domains = [domain_coordinator.get_coordinated_domain_id() for _ in range(10)]
+        nested_contexts.used_domains = set()
+        # We test only 95 domains to prevent spurious failures if some ports in our range
+        # happen to be in use by other applications
+        nested_contexts(95)
 
-        domain_ids = [str(domain) for domain in domains]
+    def test_context_scope(self):
+        """Verify that domain_id() releases IDs when the context goes out of scope."""
+        used_domains = set()
+        for _ in range(101):
+            with domain_coordinator.domain_id() as domain_id:
+                used_domains.add(domain_id)
+        # Check that the domain IDs have been reused, with some slack to prevent
+        # spurious failures if some ports in our range happen to be allocated by
+        # other applications while the test is running
+        self.assertLess(len(used_domains), 5)
 
-        self.assertEqual(
-            sorted(domain_ids),
-            sorted(set(domain_ids))  # 'set' will remove duplicates
-        )
+    def test_exhaustion(self):
+        """Verify that domain_id() raises an exception if no domain ID is available."""
+        def nested_contexts(n):
+            if n <= 0:
+                return
+            with domain_coordinator.domain_id():
+                nested_contexts(n - 1)
 
-    def test_with_forced_collision(self):
-
-        domain = domain_coordinator.get_coordinated_domain_id(
-            selector=lambda: 42  # Force it to select '42' as the domain every time it tries
-        )
-        self.assertEqual('42', str(domain))
-
-        # Now that we've already got domain 42 reserved, this call should fail:
-        with self.assertRaises(Exception) as cm:
-            domain_coordinator.get_coordinated_domain_id(
-                selector=lambda: 42
-            )
-
-        self.assertIn('Failed to get a unique domain ID', str(cm.exception))
-
-    def test_known_order(self):
-
-        class sequence_gen:
-
-            def __init__(self):
-                self._sequence = 1
-
-            def __call__(self):
-                try:
-                    return self._sequence
-                finally:
-                    self._sequence += 1
-
-        domains = [
-            domain_coordinator.get_coordinated_domain_id(selector=sequence_gen())
-            for _ in range(10)
-        ]
-
-        self.assertEqual(
-            ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-            [str(domain) for domain in domains]
-        )
-
-
-class TestSelector(unittest.TestCase):
-
-    def test_selector_values_between_1_and_100(self):
-        selector = domain_coordinator._default_selector()
-
-        for n in range(200):
-            val = selector()
-            self.assertGreaterEqual(val, 1)
-            self.assertLessEqual(val, 100)
-
-    def test_selector_values_are_unique(self):
-        selector = domain_coordinator._default_selector()
-
-        # The default sequencer should produce 100 unique values before it starts to repeat.
-        seen_values = [selector() for _ in range(100)]
-
-        self.assertEqual(
-            sorted(seen_values),
-            [n + 1 for n in range(100)]
-        )
+        with self.assertRaises(RuntimeError):
+            nested_contexts(101)
