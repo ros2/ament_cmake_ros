@@ -57,7 +57,7 @@ def domain_id(selector=None):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             domain_id = selector()
-            s.bind(("", PORT_BASE + domain_id))
+            s.bind(('', PORT_BASE + domain_id))
             yield domain_id
             break
         except OSError:
@@ -65,4 +65,4 @@ def domain_id(selector=None):
         finally:
             s.close()
     else:
-        raise RuntimeError("Failed to get a unique ROS domain ID")
+        raise RuntimeError('Failed to get a unique ROS domain ID')
