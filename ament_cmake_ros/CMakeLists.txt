@@ -15,6 +15,10 @@ ament_package(
   CONFIG_EXTRAS "ament_cmake_ros-extras.cmake.in"
 )
 
+if(WIN32)
+  ament_environment_hooks(env_hook/warn_if_not_administrator.bat)
+endif()
+
 install(
   DIRECTORY cmake
   DESTINATION share/${PROJECT_NAME}
