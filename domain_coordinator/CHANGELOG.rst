@@ -2,6 +2,11 @@
 Changelog for package domain_coordinator
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update maintainers (`#15 <https://github.com/ros2/ament_cmake_ros/issues/15>`_)
+* Contributors: methylDragon
+
 0.11.0 (2022-04-29)
 -------------------
 
