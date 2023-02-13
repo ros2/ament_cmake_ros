@@ -2,6 +2,11 @@
 Changelog for package ament_cmake_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* [rolling] Update maintainers - 2022-11-07 (`#16 <https://github.com/ros2/ament_cmake_ros/issues/16>`_)
+* Contributors: Audrow Nash
+
 0.11.1 (2022-09-13)
 -------------------
 * Update maintainers (`#15 <https://github.com/ros2/ament_cmake_ros/issues/15>`_)
