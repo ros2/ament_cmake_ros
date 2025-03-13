@@ -1,4 +1,4 @@
-# Copyright 2016 Open Source Robotics Foundation, Inc.
+# Copyright 2025 Open Source Robotics Foundation, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,11 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# generated from ament_cmake_ros/ament_cmake_ros-extras.cmake.in
+# generated from ament_cmake_ros_core/ament_cmake_ros_core-extras.cmake.in
 
-find_package(ament_cmake_gmock QUIET REQUIRED)
-find_package(ament_cmake_gtest QUIET REQUIRED)
-find_package(ament_cmake_pytest QUIET REQUIRED)
-include("${ament_cmake_ros_DIR}/ament_add_ros_isolated_gmock.cmake")
-include("${ament_cmake_ros_DIR}/ament_add_ros_isolated_gtest.cmake")
-include("${ament_cmake_ros_DIR}/ament_add_ros_isolated_pytest.cmake")
+include("${ament_cmake_ros_core_DIR}/build_shared_libs.cmake")
+add_definitions(-DROS_PACKAGE_NAME=\"${PROJECT_NAME}\")

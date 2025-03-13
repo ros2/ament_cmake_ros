@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(ament_cmake_ros NONE)
+project(ament_cmake_ros_core NONE)
 
-find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_core REQUIRED)
+find_package(ament_cmake_export_dependencies REQUIRED)
 
-ament_export_dependencies(ament_cmake)
-ament_export_dependencies(ament_cmake_ros_core)
+ament_export_dependencies(ament_cmake_core)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -13,7 +13,7 @@ if(BUILD_TESTING)
 endif()
 
 ament_package(
-  CONFIG_EXTRAS "ament_cmake_ros-extras.cmake.in"
+  CONFIG_EXTRAS "ament_cmake_ros_core-extras.cmake.in"
 )
 
 install(
