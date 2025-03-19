@@ -2,6 +2,9 @@
 Changelog for package domain_coordinator
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.13.1 (2024-11-20)
 -------------------
 * Add test_xmllint to domain_coordinator. (`#17 <https://github.com/ros2/ament_cmake_ros/issues/17>`_)

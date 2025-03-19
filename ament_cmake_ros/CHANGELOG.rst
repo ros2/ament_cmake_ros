@@ -2,6 +2,11 @@
 Changelog for package ament_cmake_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Split generic parts of ament_cmake_ros into _core package (`#20 <https://github.com/ros2/ament_cmake_ros/issues/20>`_)
+* Contributors: Scott K Logan
+
 0.13.1 (2024-11-20)
 -------------------
 
