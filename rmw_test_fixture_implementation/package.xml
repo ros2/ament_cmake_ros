@@ -19,6 +19,7 @@
   <!-- Explicit group resolution - see ros-infrastructure/catkin_pkg#369 -->
   <exec_depend condition="$DISABLE_GROUPS_WORKAROUND != 1">rmw_zenoh_cpp</exec_depend>
 
+  <depend>rcpputils</depend>
   <depend>rcutils</depend>
   <depend>rmw_implementation</depend>
   <depend>rmw_test_fixture</depend>
