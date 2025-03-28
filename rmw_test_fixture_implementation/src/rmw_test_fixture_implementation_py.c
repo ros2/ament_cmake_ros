@@ -31,14 +31,14 @@ static PyObject * get_fresh_environ()
     return NULL;
   }
 
-  PyObject *environ = PyObject_GetAttrString(os, "environ");
+  PyObject *os_environ = PyObject_GetAttrString(os, "environ");
   Py_DECREF(os);
-  if (NULL == environ) {
+  if (NULL == os_environ) {
     return NULL;
   }
 
-  PyObject *fresh_environ = PyMapping_Items(environ);
-  Py_DECREF(environ);
+  PyObject *fresh_environ = PyMapping_Items(os_environ);
+  Py_DECREF(os_environ);
   Py_EndInterpreter(sub_state);
   return fresh_environ;
 }
@@ -78,22 +78,22 @@ static bool reload_environ()
     return false;
   }
 
-  PyObject *environ = PyObject_GetAttrString(os, "environ");
+  PyObject *os_environ = PyObject_GetAttrString(os, "environ");
   Py_DECREF(os);
-  if (NULL == environ) {
+  if (NULL == os_environ) {
     Py_DECREF(fresh_environ);
     return false;
   }
 
-  PyObject *res = PyObject_CallMethod(environ, "clear", NULL);
+  PyObject *res = PyObject_CallMethod(os_environ, "clear", NULL);
   if (NULL == res) {
-    Py_DECREF(environ);
+    Py_DECREF(os_environ);
     Py_DECREF(fresh_environ);
     return false;
   }
 
-  res = PyObject_CallMethod(environ, "update", "O", fresh_environ);
-  Py_DECREF(environ);
+  res = PyObject_CallMethod(os_environ, "update", "O", fresh_environ);
+  Py_DECREF(os_environ);
   Py_DECREF(fresh_environ);
 
   return true;

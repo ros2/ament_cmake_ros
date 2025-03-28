@@ -14,9 +14,8 @@
 
 #include <errno.h>
 #include <stdio.h>
-#include <unistd.h>
 
-#ifndef _WIN32
+#if !defined _WIN32 && !defined __CYGWIN__
 #include <signal.h>
 #endif
 
@@ -62,7 +61,7 @@ main(int argc, char *argv[])
     return rmw_ret;
   }
 
-#ifndef _WIN32
+#if !defined _WIN32 && !defined __CYGWIN__
   // Let the signal propagate to the child process - this process should only
   // exit once the child process does.
   signal(SIGINT, SIG_IGN);
