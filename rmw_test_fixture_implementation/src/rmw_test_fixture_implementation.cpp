@@ -83,7 +83,7 @@ rmw_test_isolation_init()
 
     try {
       g_isolation_lib = std::make_unique<rcpputils::SharedLibrary>(library_name);
-    } catch (const std::runtime_error & e) {
+    } catch (const std::runtime_error & /*e*/) {
       // no library available, fall back to default isolation
     }
   }

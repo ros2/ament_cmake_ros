@@ -34,7 +34,7 @@ add_library(rmw_test_fixture_implementation
   src/rmw_test_fixture_implementation.cpp
 )
 target_compile_definitions(rmw_test_fixture_implementation PRIVATE
-  RMW_TEST_FIXTURE_IMPLEMENTATION_BUILDING_DLL
+  RMW_TEST_FIXTURE_BUILDING_DLL
 )
 target_link_libraries(rmw_test_fixture_implementation PRIVATE
   rcpputils::rcpputils

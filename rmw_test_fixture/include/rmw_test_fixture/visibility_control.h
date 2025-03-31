@@ -31,7 +31,7 @@ extern "C"
     #define RMW_TEST_FIXTURE_EXPORT __declspec(dllexport)
     #define RMW_TEST_FIXTURE_IMPORT __declspec(dllimport)
   #endif
-  #ifdef RMW_TEST_FIXTURE_BUILDING_LIBRARY
+  #ifdef RMW_TEST_FIXTURE_BUILDING_DLL
     #define RMW_TEST_FIXTURE_PUBLIC RMW_TEST_FIXTURE_EXPORT
   #else
     #define RMW_TEST_FIXTURE_PUBLIC RMW_TEST_FIXTURE_IMPORT
