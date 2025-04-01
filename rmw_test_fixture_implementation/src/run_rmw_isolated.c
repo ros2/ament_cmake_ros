@@ -26,6 +26,13 @@
 
 #include <rmw_test_fixture/rmw_test_fixture.h>
 
+#if defined _WIN32 || defined __CYGWIN__
+bool ctrl_c_handler(int signal)
+{
+  return false;
+}
+#endif
+
 int
 main(int argc, char *argv[])
 {
@@ -61,9 +68,11 @@ main(int argc, char *argv[])
     return rmw_ret;
   }
 
-#if !defined _WIN32 && !defined __CYGWIN__
   // Let the signal propagate to the child process - this process should only
   // exit once the child process does.
+#if defined _WIN32 || defined __CYGWIN__
+  SetConsoleCtrlHandler((PHANDLER_ROUTINE)ctrl_c_handler, TRUE);
+#else
   signal(SIGINT, SIG_IGN);
 #endif
 
