@@ -25,20 +25,28 @@ find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_ros_core REQUIRED)
 
-find_package(rcutils REQUIRED)
 find_package(rcpputils REQUIRED)
+find_package(rcutils REQUIRED)
+find_package(rmw REQUIRED)
 find_package(rmw_implementation REQUIRED)
 find_package(rmw_test_fixture REQUIRED)
 
 add_library(rmw_test_fixture_implementation
+  src/rmw_test_fixture_default/rmw_test_fixture_default.c
   src/rmw_test_fixture_implementation.cpp
+)
+target_include_directories(rmw_test_fixture_implementation PRIVATE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
 )
 target_compile_definitions(rmw_test_fixture_implementation PRIVATE
   RMW_TEST_FIXTURE_BUILDING_DLL
 )
 target_link_libraries(rmw_test_fixture_implementation PRIVATE
   rcpputils::rcpputils
+  rcutils::rcutils
+  rmw::rmw
   rmw_implementation::rmw_implementation
+  $<$<BOOL:${WIN32}>:ws2_32 wsock32>
 )
 target_link_libraries(rmw_test_fixture_implementation PUBLIC
   rmw_test_fixture::rmw_test_fixture
