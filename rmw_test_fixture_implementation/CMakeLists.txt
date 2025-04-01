@@ -44,6 +44,14 @@ target_link_libraries(rmw_test_fixture_implementation PUBLIC
   rmw_test_fixture::rmw_test_fixture
 )
 
+install(
+  TARGETS rmw_test_fixture_implementation
+  EXPORT ${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
 add_executable(run_rmw_isolated
   src/run_rmw_isolated.c
 )
@@ -53,11 +61,9 @@ target_link_libraries(run_rmw_isolated
 )
 
 install(
-  TARGETS rmw_test_fixture_implementation run_rmw_isolated
+  TARGETS run_rmw_isolated
   EXPORT ${PROJECT_NAME}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 ament_python_install_package(${PROJECT_NAME})
