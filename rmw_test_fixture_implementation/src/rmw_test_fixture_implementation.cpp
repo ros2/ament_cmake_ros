@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "rmw_test_fixture_default/rmw_test_fixture_default.h"
+
 #include <rmw/macros.h>
 #include <rmw/rmw.h>
 #include <rmw/types.h>
@@ -37,20 +39,6 @@ static rmw_ret_t (*symbol_rmw_test_isolation_start)() = rmw_test_isolation_init;
 static rmw_ret_t (*symbol_rmw_test_isolation_stop)() = rmw_test_isolation_stop_noop;
 
 static std::unique_ptr<rcpputils::SharedLibrary> g_isolation_lib = nullptr;
-
-static
-rmw_ret_t
-rmw_test_isolation_start_default()
-{
-  return RMW_RET_UNSUPPORTED;
-}
-
-static
-rmw_ret_t
-rmw_test_isolation_stop_default()
-{
-  return RMW_RET_UNSUPPORTED;
-}
 
 static
 rmw_ret_t
