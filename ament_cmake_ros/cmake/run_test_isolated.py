@@ -14,24 +14,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import contextlib
 import os
 import sys
 
 import ament_cmake_test
-import domain_coordinator
+from ament_index_python import has_resource
+
+
+def _get_rmw_isolator_path():
+    prefix = has_resource('packages', 'rmw_test_fixture_implementation')
+    if not prefix:
+        raise RuntimeError(
+            "Could not find package 'rmw_test_fixture_implementation'.")
+    return os.path.join(
+        prefix, 'lib', 'rmw_test_fixture_implementation', 'run_rmw_isolated')
 
 
 if __name__ == '__main__':
-    # If ROS_DOMAIN_ID is already set, respect that domain ID and use it.
-    # If ROS_DOMAIN_ID is not set, pick a ROS_DOMAIN_ID that's not being used
-    # by another run_test_isolated process.
-    # This is to allow tests to run in parallel and not have ROS cross-talk.
-    # If the user needs to debug a test and they don't have ROS_DOMAIN_ID set in their environment
-    # they can disable isolation by setting the DISABLE_ROS_ISOLATION environment variable.
-    with contextlib.ExitStack() as stack:
-        if 'ROS_DOMAIN_ID' not in os.environ and 'DISABLE_ROS_ISOLATION' not in os.environ:
-            domain_id = stack.enter_context(domain_coordinator.domain_id())
-            print('Running with ROS_DOMAIN_ID {}'.format(domain_id))
-            os.environ['ROS_DOMAIN_ID'] = str(domain_id)
-        sys.exit(ament_cmake_test.main())
+    argv = sys.argv[1:]
+    try:
+        index = argv.index('--command')
+    except ValueError:
+        # Let the parser raise an error
+        pass
+    else:
+        # Insert the isolation wrapper at the front of the command list
+        argv.insert(index + 1, _get_rmw_isolator_path())
+
+    sys.exit(ament_cmake_test.main(argv=argv))
