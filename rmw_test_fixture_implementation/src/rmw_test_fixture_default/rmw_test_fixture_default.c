@@ -162,7 +162,7 @@ rmw_test_isolation_start_default()
   }
 
   uint16_t slot;
-  g_lock = port_lock_init(32768, 32896, &slot);
+  g_lock = port_lock_init(32769, 32870, &slot);
   if (INVALID_PORT_LOCK == g_lock) {
     fprintf(stderr, "Failed to acquire port lock\n");
     return RMW_RET_ERROR;
