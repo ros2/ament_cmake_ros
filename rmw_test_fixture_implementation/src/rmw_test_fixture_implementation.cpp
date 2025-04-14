@@ -55,6 +55,23 @@ rmw_test_isolation_stop_noop()
 }
 
 static
+std::string
+get_rmw_implementation_identifier()
+{
+  std::string from_env = rcpputils::get_env_var("RMW_IMPLEMENTATION");
+  if (from_env.empty()) {
+    return std::string(RMW_STRINGIFY(DEFAULT_RMW_IMPLEMENTATION));
+  }
+
+  // TODO(cottsay): The code in rmw_implementation will now loop through the
+  // available implementations and take the first one that works. We might be
+  // able to replicate that process here, but honestly we really shouldn't
+  // have to.
+
+  return from_env;
+}
+
+static
 rmw_ret_t
 rmw_test_isolation_init()
 {
@@ -63,17 +80,14 @@ rmw_test_isolation_init()
     return symbol_rmw_test_isolation_start();
   }
 
-  const char * rmw_id = rmw_get_implementation_identifier();
+  std::string rmw_id = get_rmw_implementation_identifier();
+  std::string library = rmw_id + "_test_fixture";
+  std::string library_name = rcpputils::get_platform_library_name(library);
 
-  if (rmw_id != NULL) {
-    std::string library = std::string(rmw_id) + "_test_fixture";
-    std::string library_name = rcpputils::get_platform_library_name(library);
-
-    try {
-      g_isolation_lib = std::make_unique<rcpputils::SharedLibrary>(library_name);
-    } catch (const std::runtime_error & /*e*/) {
-      // no library available, fall back to default isolation
-    }
+  try {
+    g_isolation_lib = std::make_unique<rcpputils::SharedLibrary>(library_name);
+  } catch (const std::runtime_error & /*e*/) {
+    // no library available, fall back to default isolation
   }
 
   if (g_isolation_lib) {
