@@ -14,10 +14,16 @@
 
 from contextlib import AbstractContextManager
 
-from rmw_test_fixture_implementation._rmw_test_fixture_implementation \
-    import rmw_test_isolation_start
-from rmw_test_fixture_implementation._rmw_test_fixture_implementation \
-    import rmw_test_isolation_stop
+from rpyutils import add_dll_directories_from_env
+
+# Since Python 3.8, on Windows we should ensure DLL directories are explicitly
+# added to the search path.
+# See https://docs.python.org/3/whatsnew/3.8.html#bpo-36085-whatsnew
+with add_dll_directories_from_env('PATH'):
+    from rmw_test_fixture_implementation._rmw_test_fixture_implementation \
+        import rmw_test_isolation_start
+    from rmw_test_fixture_implementation._rmw_test_fixture_implementation \
+        import rmw_test_isolation_stop
 
 __all__ = ['RMWTestIsolator']
 
