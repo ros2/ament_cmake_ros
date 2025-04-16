@@ -18,7 +18,7 @@
 
 #include <rmw_test_fixture/rmw_test_fixture.h>
 
-static PyObject * get_fresh_environ()
+static PyObject * get_fresh_environ(void)
 {
   PyThreadState *sub_state = Py_NewInterpreter();
   if (NULL == sub_state) {
@@ -62,7 +62,7 @@ static PyObject * get_fresh_environ()
  * \return true if the variables were reloaded successfully, or
  * \return false if an unspecified error occurs.
  */
-static bool reload_environ()
+static bool reload_environ(void)
 {
   PyThreadState *orig_state = PyThreadState_Swap(NULL);
 
