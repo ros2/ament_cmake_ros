@@ -48,7 +48,8 @@ target_link_libraries(rmw_test_fixture_implementation PRIVATE
   rcpputils::rcpputils
   rcutils::rcutils
   rmw::rmw
-  $<$<BOOL:${WIN32}>:ws2_32 wsock32>
+  $<$<BOOL:${WIN32}>:ws2_32>
+  $<$<BOOL:${WIN32}>:wsock32>
 )
 target_link_libraries(rmw_test_fixture_implementation PUBLIC
   rmw_test_fixture::rmw_test_fixture
