@@ -2,6 +2,9 @@
 Changelog for package rmw_test_fixture
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.14.2 (2025-04-18)
+-------------------
+
 0.14.1 (2025-04-02)
 -------------------
 * Resolve windows warnings in rmw_test_fixture (`#22 <https://github.com/ros2/ament_cmake_ros/issues/22>`_)

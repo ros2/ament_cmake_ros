@@ -2,6 +2,13 @@
 Changelog for package ament_cmake_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.14.2 (2025-04-18)
+-------------------
+* Add ament_add_ros_isolated\_{gmock,gtest}_test macros (`#29 <https://github.com/ros2/ament_cmake_ros/issues/29>`_)
+* Switch from 'domain_coordinator' to 'rmw_test_fixture' (`#28 <https://github.com/ros2/ament_cmake_ros/issues/28>`_)
+* Add ament_add_ros_isolated_test function (`#27 <https://github.com/ros2/ament_cmake_ros/issues/27>`_)
+* Contributors: Scott K Logan
+
 0.14.1 (2025-04-02)
 -------------------
 

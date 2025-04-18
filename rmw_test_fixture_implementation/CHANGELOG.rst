@@ -2,6 +2,14 @@
 Changelog for package rmw_test_fixture_implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.14.2 (2025-04-18)
+-------------------
+* Don't set ROS_AUTOMATIC_DISCOVERY_RANGE in rmw_test_fixture (`#33 <https://github.com/ros2/ament_cmake_ros/issues/33>`_)
+* Fix rmw_test_fixture DLL import on Windows (`#32 <https://github.com/ros2/ament_cmake_ros/issues/32>`_)
+* Fix range for rmw_test_fixture_default port locking (`#31 <https://github.com/ros2/ament_cmake_ros/issues/31>`_)
+* Stop loading RMW to load the test fixture (`#30 <https://github.com/ros2/ament_cmake_ros/issues/30>`_)
+* Contributors: Scott K Logan
+
 0.14.1 (2025-04-02)
 -------------------
 * Add 'default' rmw_test_fixture based on domain_coordinator (`#26 <https://github.com/ros2/ament_cmake_ros/issues/26>`_)
