@@ -2,6 +2,9 @@
 Changelog for package rmw_test_fixture_implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.14.3 (2025-04-18)
+-------------------
+
 0.14.2 (2025-04-18)
 -------------------
 * Don't set ROS_AUTOMATIC_DISCOVERY_RANGE in rmw_test_fixture (`#33 <https://github.com/ros2/ament_cmake_ros/issues/33>`_)

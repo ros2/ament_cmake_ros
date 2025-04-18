@@ -2,6 +2,9 @@
 Changelog for package ament_cmake_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.14.3 (2025-04-18)
+-------------------
+
 0.14.2 (2025-04-18)
 -------------------
 * Add ament_add_ros_isolated\_{gmock,gtest}_test macros (`#29 <https://github.com/ros2/ament_cmake_ros/issues/29>`_)
