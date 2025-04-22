@@ -154,7 +154,7 @@ port_lock_init(uint16_t start, uint16_t end, uint16_t *slot)
  * \return `RMW_RET_ERROR` if an unexpected error occurs.
  */
 rmw_ret_t
-rmw_test_isolation_start_default()
+rmw_test_isolation_start_default(void)
 {
   if (INVALID_PORT_LOCK != g_lock) {
     fprintf(stderr, "Fixture is already in use\n");
@@ -194,7 +194,7 @@ rmw_test_isolation_start_default()
 }
 
 rmw_ret_t
-rmw_test_isolation_stop_default()
+rmw_test_isolation_stop_default(void)
 {
   if (!rcutils_set_env("ROS_DOMAIN_ID", NULL)) {
     fprintf(stderr, "Failed to clear ROS_DOMAIN_ID\n");

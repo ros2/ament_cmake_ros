@@ -23,10 +23,10 @@ extern "C"
 #include <rmw/types.h>
 
 rmw_ret_t
-rmw_test_isolation_start_default();
+rmw_test_isolation_start_default(void);
 
 rmw_ret_t
-rmw_test_isolation_stop_default();
+rmw_test_isolation_stop_default(void);
 
 #ifdef __cplusplus
 }
