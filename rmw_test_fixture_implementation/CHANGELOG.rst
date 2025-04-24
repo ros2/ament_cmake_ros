@@ -2,6 +2,11 @@
 Changelog for package rmw_test_fixture_implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.15.0 (2025-04-24)
+-------------------
+* Removed clang warnings (`#34 <https://github.com/ros2/ament_cmake_ros/issues/34>`_)
+* Contributors: Alejandro Hernández Cordero
+
 0.14.3 (2025-04-18)
 -------------------
 

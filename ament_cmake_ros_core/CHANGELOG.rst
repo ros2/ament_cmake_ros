@@ -2,6 +2,9 @@
 Changelog for package ament_cmake_ros_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.15.0 (2025-04-24)
+-------------------
+
 0.14.3 (2025-04-18)
 -------------------
 * Add missing build_export_depend on ament_cmake_libraries (`#37 <https://github.com/ros2/ament_cmake_ros/issues/37>`_)
