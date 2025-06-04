@@ -125,7 +125,14 @@ rmw_test_isolation_start()
 rmw_ret_t
 rmw_test_isolation_stop()
 {
-  return symbol_rmw_test_isolation_stop();
+  rmw_ret_t ret = symbol_rmw_test_isolation_stop();
+
+  g_isolation_lib.reset();
+
+  symbol_rmw_test_isolation_start = rmw_test_isolation_init;
+  symbol_rmw_test_isolation_stop = rmw_test_isolation_stop_noop;
+
+  return ret;
 }
 
 #ifdef __cplusplus
