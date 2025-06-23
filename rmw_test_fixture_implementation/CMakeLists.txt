@@ -97,6 +97,8 @@ set_target_properties(_rmw_test_fixture_implementation PROPERTIES
 )
 
 target_link_libraries(_rmw_test_fixture_implementation PRIVATE
+  rcutils::rcutils
+  rmw::rmw
   rmw_test_fixture_implementation
 )
 
