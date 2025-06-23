@@ -89,6 +89,8 @@ if(WIN32 AND CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 target_link_libraries(_rmw_test_fixture_implementation PRIVATE
+  rcutils::rcutils
+  rmw::rmw
   rmw_test_fixture_implementation
 )
 
