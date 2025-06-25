@@ -57,6 +57,10 @@ typedef int port_lock_t;
 
 static port_lock_t g_lock = INVALID_PORT_LOCK;
 
+static unsigned int g_random_seed;
+
+static bool g_random_seed_initialized = false;
+
 static
 void
 port_lock_fini(port_lock_t lock)
@@ -111,7 +115,14 @@ port_lock_init(uint16_t start, uint16_t end, uint16_t *slot)
     return INVALID_PORT_LOCK;
   }
 
-  uint16_t offset = rcutils_get_pid() % (end - start);
+  if (!g_random_seed_initialized) {
+    g_random_seed = rcutils_get_pid();
+    g_random_seed_initialized = true;
+  }
+
+  g_random_seed = g_random_seed * 1103515245 + 12345;
+  uint16_t offset = g_random_seed % (end - start);
+
   struct sockaddr_in addr;
   memset(&addr, 0x0, sizeof(addr));
   addr.sin_family = AF_INET;
