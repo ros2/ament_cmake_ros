@@ -25,6 +25,7 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 #include <rcpputils/env.hpp>
 #include <rcpputils/shared_library.hpp>
