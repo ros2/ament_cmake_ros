@@ -2,6 +2,16 @@
 Changelog for package rmw_test_fixture_implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.15.1 (2025-06-30)
+-------------------
+* On start-after-stop, re-check RMW_IMPLEMENTATION for changes (`#46 <https://github.com/ros2/ament_cmake_ros/issues/46>`_)
+* Choose random domain IDs during default RMW isolation (`#39 <https://github.com/ros2/ament_cmake_ros/issues/39>`_)
+* Ignore SIGINT *after* child process has been spawned (`#45 <https://github.com/ros2/ament_cmake_ros/issues/45>`_)
+* Add some smoke tests for rmw_test_fixture_implementation (`#42 <https://github.com/ros2/ament_cmake_ros/issues/42>`_)
+* Copy all environment variables explicitly (`#43 <https://github.com/ros2/ament_cmake_ros/issues/43>`_)
+* Split the generator expression for each library (`#36 <https://github.com/ros2/ament_cmake_ros/issues/36>`_)
+* Contributors: Scott K Logan, Tanishq Chaudhary
+
 0.15.0 (2025-04-24)
 -------------------
 * Removed clang warnings (`#34 <https://github.com/ros2/ament_cmake_ros/issues/34>`_)
