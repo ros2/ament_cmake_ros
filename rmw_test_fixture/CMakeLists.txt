@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.20)
 project(rmw_test_fixture LANGUAGES NONE)
 
 find_package(ament_cmake REQUIRED)
