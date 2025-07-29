@@ -2,8 +2,8 @@
 Changelog for package ament_cmake_ros_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.15.2 (2025-07-29)
+-------------------
 * fix cmake deprecation (`#47 <https://github.com/ros2/ament_cmake_ros/issues/47>`_)
 * Contributors: mosfet80
 
