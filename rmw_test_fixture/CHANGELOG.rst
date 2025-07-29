@@ -2,6 +2,11 @@
 Changelog for package rmw_test_fixture
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fix cmake deprecation (`#47 <https://github.com/ros2/ament_cmake_ros/issues/47>`_)
+* Contributors: mosfet80
+
 0.15.1 (2025-06-30)
 -------------------
 

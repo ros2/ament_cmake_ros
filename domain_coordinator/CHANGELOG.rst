@@ -2,6 +2,11 @@
 Changelog for package domain_coordinator
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fix setuptools deprecations (`#49 <https://github.com/ros2/ament_cmake_ros/issues/49>`_)
+* Contributors: mosfet80
+
 0.15.1 (2025-06-30)
 -------------------
 
