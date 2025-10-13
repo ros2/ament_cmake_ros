@@ -20,9 +20,12 @@
 
 #include <rmw_test_fixture/rmw_test_fixture.h>
 
+#include <map>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 #include <rcpputils/env.hpp>
 #include <rcpputils/shared_library.hpp>
@@ -38,7 +41,7 @@ rmw_test_isolation_stop_noop();
 static rmw_ret_t (*symbol_rmw_test_isolation_start)() = rmw_test_isolation_init;
 static rmw_ret_t (*symbol_rmw_test_isolation_stop)() = rmw_test_isolation_stop_noop;
 
-static std::unique_ptr<rcpputils::SharedLibrary> g_isolation_lib = nullptr;
+static std::map<std::string, std::unique_ptr<rcpputils::SharedLibrary>> g_isolation_libs;
 
 static
 rmw_ret_t
@@ -72,6 +75,30 @@ get_rmw_implementation_identifier()
 }
 
 static
+const std::unique_ptr<rcpputils::SharedLibrary> &
+get_fixture_library()
+{
+  std::string rmw_id = get_rmw_implementation_identifier();
+
+  std::map<std::string,
+    std::unique_ptr<rcpputils::SharedLibrary>>::iterator it = g_isolation_libs.find(rmw_id);
+  if (it != g_isolation_libs.end()) {
+    return it->second;
+  }
+
+  std::string library = rmw_id + "_test_fixture";
+  std::string library_name = rcpputils::get_platform_library_name(library);
+  std::unique_ptr<rcpputils::SharedLibrary> isolation_lib = nullptr;
+  try {
+    isolation_lib = std::make_unique<rcpputils::SharedLibrary>(library_name);
+  } catch (const std::runtime_error & /* e */) {
+    // no library available, fall back to default isolation
+  }
+
+  return g_isolation_libs.insert_or_assign(rmw_id, std::move(isolation_lib)).first->second;
+}
+
+static
 rmw_ret_t
 rmw_test_isolation_init()
 {
@@ -80,26 +107,16 @@ rmw_test_isolation_init()
     return symbol_rmw_test_isolation_start();
   }
 
-  std::string rmw_id = get_rmw_implementation_identifier();
-  std::string library = rmw_id + "_test_fixture";
-  std::string library_name = rcpputils::get_platform_library_name(library);
-
-  try {
-    g_isolation_lib = std::make_unique<rcpputils::SharedLibrary>(library_name);
-  } catch (const std::runtime_error & /*e*/) {
-    // no library available, fall back to default isolation
-  }
-
-  if (g_isolation_lib) {
-    void *symbol = g_isolation_lib->get_symbol("rmw_test_isolation_start");
+  const std::unique_ptr<rcpputils::SharedLibrary> & isolation_lib = get_fixture_library();
+  if (isolation_lib) {
+    void *symbol = isolation_lib->get_symbol("rmw_test_isolation_start");
     if (symbol == nullptr) {
-      g_isolation_lib.reset();
       return RMW_RET_ERROR;
     }
 
     symbol_rmw_test_isolation_start = (rmw_ret_t (*)())symbol;
 
-    symbol = g_isolation_lib->get_symbol("rmw_test_isolation_stop");
+    symbol = isolation_lib->get_symbol("rmw_test_isolation_stop");
     if (symbol != nullptr) {
       symbol_rmw_test_isolation_stop = (rmw_ret_t (*)())symbol;
     }
@@ -125,7 +142,12 @@ rmw_test_isolation_start()
 rmw_ret_t
 rmw_test_isolation_stop()
 {
-  return symbol_rmw_test_isolation_stop();
+  rmw_ret_t ret = symbol_rmw_test_isolation_stop();
+
+  symbol_rmw_test_isolation_start = rmw_test_isolation_init;
+  symbol_rmw_test_isolation_stop = rmw_test_isolation_stop_noop;
+
+  return ret;
 }
 
 #ifdef __cplusplus

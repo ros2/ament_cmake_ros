@@ -68,14 +68,6 @@ main(int argc, char *argv[])
     return rmw_ret;
   }
 
-  // Let the signal propagate to the child process - this process should only
-  // exit once the child process does.
-#if defined _WIN32 || defined __CYGWIN__
-  SetConsoleCtrlHandler((PHANDLER_ROUTINE)ctrl_c_handler, TRUE);
-#else
-  signal(SIGINT, SIG_IGN);
-#endif
-
   process = rcutils_start_process(&args, &allocator);
   if (NULL == process) {
     fprintf(stderr, "Failed to run %s\n", argv[1]);
@@ -87,6 +79,14 @@ main(int argc, char *argv[])
     fprintf(stderr, "Failed to free argument array (%d)\n", rcutils_ret);
     return rcutils_ret;
   }
+
+  // Let the signal propagate to the child process - this process should only
+  // exit once the child process does.
+#if defined _WIN32 || defined __CYGWIN__
+  SetConsoleCtrlHandler((PHANDLER_ROUTINE)ctrl_c_handler, TRUE);
+#else
+  signal(SIGINT, SIG_IGN);
+#endif
 
   rcutils_ret = rcutils_process_wait(process, &exit_code);
   if (RCUTILS_RET_OK != rcutils_ret) {
