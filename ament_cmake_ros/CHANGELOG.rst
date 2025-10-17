@@ -2,6 +2,9 @@
 Changelog for package ament_cmake_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.15.3 (2025-10-17)
+-------------------
+
 0.15.2 (2025-07-29)
 -------------------
 * fix cmake deprecation (`#47 <https://github.com/ros2/ament_cmake_ros/issues/47>`_)
