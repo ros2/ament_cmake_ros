@@ -2,6 +2,12 @@
 Changelog for package rmw_test_fixture
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.14.4 (2025-10-17)
+-------------------
+* add find_package call (`#50 <https://github.com/ros2/ament_cmake_ros/issues/50>`_) (`#51 <https://github.com/ros2/ament_cmake_ros/issues/51>`_)
+* fix cmake deprecation (`#47 <https://github.com/ros2/ament_cmake_ros/issues/47>`_) (`#48 <https://github.com/ros2/ament_cmake_ros/issues/48>`_)
+* Contributors: mergify[bot]
+
 0.14.3 (2025-04-18)
 -------------------
 

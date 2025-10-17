@@ -2,6 +2,14 @@
 Changelog for package rmw_test_fixture_implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.14.4 (2025-10-17)
+-------------------
+* Copy all environment variables explicitly (backport `#43 <https://github.com/ros2/ament_cmake_ros/issues/43>`_) (`#52 <https://github.com/ros2/ament_cmake_ros/issues/52>`_)
+* fix cmake deprecation (`#47 <https://github.com/ros2/ament_cmake_ros/issues/47>`_) (`#48 <https://github.com/ros2/ament_cmake_ros/issues/48>`_)
+* Split the generator expression for each library (`#36 <https://github.com/ros2/ament_cmake_ros/issues/36>`_) (`#38 <https://github.com/ros2/ament_cmake_ros/issues/38>`_)
+* Removed clang warnings (`#34 <https://github.com/ros2/ament_cmake_ros/issues/34>`_)
+* Contributors: Alejandro Hernández Cordero, mergify[bot]
+
 0.14.3 (2025-04-18)
 -------------------
 
