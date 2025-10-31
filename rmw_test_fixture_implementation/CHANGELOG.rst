@@ -2,6 +2,11 @@
 Changelog for package rmw_test_fixture_implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.15.4 (2025-10-31)
+-------------------
+* default to c++17 due to use of newer methods on std::map (`#55 <https://github.com/ros2/ament_cmake_ros/issues/55>`_)
+* Contributors: William Woodall
+
 0.15.3 (2025-10-17)
 -------------------
 
