@@ -2,6 +2,11 @@
 Changelog for package rmw_test_fixture
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.14.5 (2025-10-31)
+-------------------
+* Add missing dependency from rmw_test_fixture to rmw (`#56 <https://github.com/ros2/ament_cmake_ros/issues/56>`_)
+* Contributors: Scott K Logan
+
 0.14.4 (2025-10-17)
 -------------------
 * add find_package call (`#50 <https://github.com/ros2/ament_cmake_ros/issues/50>`_) (`#51 <https://github.com/ros2/ament_cmake_ros/issues/51>`_)
