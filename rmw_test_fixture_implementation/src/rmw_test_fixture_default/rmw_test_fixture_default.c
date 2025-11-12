@@ -186,7 +186,7 @@ rmw_test_isolation_start_default(void)
   slot += 1;
 
   const char *old_env_val;
-  if (NULL == rcutils_get_env("ROS_DOMAIN_ID", &old_env_val)) {
+  if (NULL != rcutils_get_env("ROS_DOMAIN_ID", &old_env_val)) {
     fprintf(stderr, "Failed to get ROS_DOMAIN_ID\n");
     port_lock_fini(g_lock);
     g_lock = INVALID_PORT_LOCK;
@@ -198,12 +198,17 @@ rmw_test_isolation_start_default(void)
     allocator.deallocate(g_restore_domain_id, allocator.state);
     g_restore_domain_id = NULL;
   }
-  g_restore_domain_id = rcutils_strdup(old_env_val, allocator);
-  if (NULL == g_restore_domain_id) {
-    fprintf(stderr, "Failed save old ROS_DOMAIN_ID\n");
-    port_lock_fini(g_lock);
-    g_lock = INVALID_PORT_LOCK;
-    return RMW_RET_ERROR;
+  if (strlen(old_env_val) > 0) {
+    // rcutils_get_env yields an empty string if the variable is not set.
+    // An empty ROS_DOMAIN_ID is not valid, so we should interpret an empty
+    // value as "unset" and therefore pass NULL to rcutils_set_env on stop.
+    g_restore_domain_id = rcutils_strdup(old_env_val, allocator);
+    if (NULL == g_restore_domain_id) {
+      fprintf(stderr, "Failed save old ROS_DOMAIN_ID\n");
+      port_lock_fini(g_lock);
+      g_lock = INVALID_PORT_LOCK;
+      return RMW_RET_ERROR;
+    }
   }
 
   char *env_val = rcutils_format_string(allocator, "%d", slot);
