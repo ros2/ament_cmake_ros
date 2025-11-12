@@ -196,6 +196,7 @@ rmw_test_isolation_start_default(void)
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (NULL != g_restore_domain_id) {
     allocator.deallocate(g_restore_domain_id, allocator.state);
+    g_restore_domain_id = NULL;
   }
   g_restore_domain_id = rcutils_strdup(old_env_val, allocator);
   if (NULL == g_restore_domain_id) {
