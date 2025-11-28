@@ -2,6 +2,11 @@
 Changelog for package rmw_test_fixture_implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.14.6 (2025-11-28)
+-------------------
+* Restore ROS_DOMAIN_ID after isolation is finished (`#58 <https://github.com/ros2/ament_cmake_ros/issues/58>`_) (`#59 <https://github.com/ros2/ament_cmake_ros/issues/59>`_)
+* Contributors: mergify[bot]
+
 0.14.5 (2025-10-31)
 -------------------
 * default to c++17 due to use of newer methods on std::map (`#57 <https://github.com/ros2/ament_cmake_ros/issues/57>`_)
