@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>rmw_test_fixture</name>
-  <version>0.15.0</version>
+  <version>0.15.4</version>
   <description>Plugin interface for tools for isolating ROS communication at the RMW layer</description>
 
   <maintainer email="brandon@openrobotics.org">Brandon Ong</maintainer>
@@ -13,6 +13,8 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_ros_core</buildtool_depend>
+
+  <build_depend>rmw</build_depend>
 
   <build_export_depend>rmw</build_export_depend>
 

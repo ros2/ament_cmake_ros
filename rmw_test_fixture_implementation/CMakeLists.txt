@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.20)
 project(rmw_test_fixture_implementation LANGUAGES C CXX)
 
-# Ensure C++14 support
+# Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
 endif()
@@ -93,15 +93,9 @@ if(WIN32 AND CMAKE_BUILD_TYPE STREQUAL "Debug")
   set_target_properties(_rmw_test_fixture_implementation PROPERTIES DEBUG_POSTFIX "_d")
 endif()
 
-# Set output directories to import module from the build directory
-# Use a no-op generator expression so multi-config generators don't append an
-# extra directory like Release/ or Debug/ and break the Python import.
-set_target_properties(_rmw_test_fixture_implementation PROPERTIES
-  LIBRARY_OUTPUT_DIRECTORY "$<1:${CMAKE_CURRENT_BINARY_DIR}/test_${PROJECT_NAME}>"
-  RUNTIME_OUTPUT_DIRECTORY "$<1:${CMAKE_CURRENT_BINARY_DIR}/test_${PROJECT_NAME}>"
-)
-
 target_link_libraries(_rmw_test_fixture_implementation PRIVATE
+  rcutils::rcutils
+  rmw::rmw
   rmw_test_fixture_implementation
 )
 
@@ -113,6 +107,8 @@ install(TARGETS
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
+
+  add_subdirectory(test)
 endif()
 
 ament_export_targets(${PROJECT_NAME})

@@ -6,7 +6,7 @@ package_name = 'domain_coordinator'
 
 setup(
     name=package_name,
-    version='0.15.0',
+    version='0.15.4',
     packages=[
         'domain_coordinator',
     ],
@@ -26,7 +26,6 @@ setup(
     keywords=['ROS'],
     classifiers=[
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python',
         'Topic :: Software Development',
     ],
@@ -37,5 +36,9 @@ setup(
         'that allow tests to run in parallel without interfering with each other.'
     ),
     license='Apache License, Version 2.0',
-    tests_require=['pytest'],
+    extras_require={
+        'test': [
+            'pytest',
+        ],
+    },
 )

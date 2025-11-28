@@ -45,6 +45,7 @@
 #include <rcutils/env.h>
 #include <rcutils/format_string.h>
 #include <rcutils/process.h>
+#include <rcutils/strdup.h>
 #include <rmw/types.h>
 
 #if defined _WIN32 || defined __CYGWIN__
@@ -56,6 +57,12 @@ typedef int port_lock_t;
 #endif
 
 static port_lock_t g_lock = INVALID_PORT_LOCK;
+
+static unsigned int g_random_seed;
+
+static bool g_random_seed_initialized = false;
+
+static char *g_restore_domain_id = NULL;
 
 static
 void
@@ -111,7 +118,14 @@ port_lock_init(uint16_t start, uint16_t end, uint16_t *slot)
     return INVALID_PORT_LOCK;
   }
 
-  uint16_t offset = rcutils_get_pid() % (end - start);
+  if (!g_random_seed_initialized) {
+    g_random_seed = rcutils_get_pid();
+    g_random_seed_initialized = true;
+  }
+
+  g_random_seed = g_random_seed * 1103515245 + 12345;
+  uint16_t offset = g_random_seed % (end - start);
+
   struct sockaddr_in addr;
   memset(&addr, 0x0, sizeof(addr));
   addr.sin_family = AF_INET;
@@ -171,7 +185,32 @@ rmw_test_isolation_start_default(void)
   // Avoid ROS_DOMAIN_ID=0 entirely
   slot += 1;
 
+  const char *old_env_val;
+  if (NULL != rcutils_get_env("ROS_DOMAIN_ID", &old_env_val)) {
+    fprintf(stderr, "Failed to get ROS_DOMAIN_ID\n");
+    port_lock_fini(g_lock);
+    g_lock = INVALID_PORT_LOCK;
+    return RMW_RET_ERROR;
+  }
+
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  if (NULL != g_restore_domain_id) {
+    allocator.deallocate(g_restore_domain_id, allocator.state);
+    g_restore_domain_id = NULL;
+  }
+  if (strlen(old_env_val) > 0) {
+    // rcutils_get_env yields an empty string if the variable is not set.
+    // An empty ROS_DOMAIN_ID is not valid, so we should interpret an empty
+    // value as "unset" and therefore pass NULL to rcutils_set_env on stop.
+    g_restore_domain_id = rcutils_strdup(old_env_val, allocator);
+    if (NULL == g_restore_domain_id) {
+      fprintf(stderr, "Failed save old ROS_DOMAIN_ID\n");
+      port_lock_fini(g_lock);
+      g_lock = INVALID_PORT_LOCK;
+      return RMW_RET_ERROR;
+    }
+  }
+
   char *env_val = rcutils_format_string(allocator, "%d", slot);
   if (NULL == env_val) {
     fprintf(stderr, "Failed to format ROS_DOMAIN_ID value\n");
@@ -196,8 +235,14 @@ rmw_test_isolation_start_default(void)
 rmw_ret_t
 rmw_test_isolation_stop_default(void)
 {
-  if (!rcutils_set_env("ROS_DOMAIN_ID", NULL)) {
-    fprintf(stderr, "Failed to clear ROS_DOMAIN_ID\n");
+  if (!rcutils_set_env("ROS_DOMAIN_ID", g_restore_domain_id)) {
+    fprintf(stderr, "Failed to restore ROS_DOMAIN_ID\n");
+  }
+
+  if (NULL != g_restore_domain_id) {
+    rcutils_allocator_t allocator = rcutils_get_default_allocator();
+    allocator.deallocate(g_restore_domain_id, allocator.state);
+    g_restore_domain_id = NULL;
   }
 
   port_lock_fini(g_lock);
