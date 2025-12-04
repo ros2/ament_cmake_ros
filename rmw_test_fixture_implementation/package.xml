@@ -18,9 +18,6 @@
   <build_depend>rmw_implementation</build_depend>
   <build_depend>rmw_implementation_cmake</build_depend>
 
-  <!-- Explicit group resolution - see ros-infrastructure/catkin_pkg#369 -->
-  <exec_depend condition="$DISABLE_GROUPS_WORKAROUND != 1">rmw_zenoh_cpp</exec_depend>
-
   <exec_depend>rpyutils</exec_depend>
 
   <depend>rcpputils</depend>
@@ -32,8 +29,6 @@
   <test_depend>ament_cmake_pytest</test_depend>
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
-
-  <group_depend>rmw_test_fixture_implementation_packages</group_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
