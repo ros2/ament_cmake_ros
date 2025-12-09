@@ -2,6 +2,11 @@
 Changelog for package rmw_test_fixture_implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.15.6 (2025-12-09)
+-------------------
+* Drop dependency group dependency on test fixtures (`#60 <https://github.com/ros2/ament_cmake_ros/issues/60>`_)
+* Contributors: Scott K Logan
+
 0.15.5 (2025-11-28)
 -------------------
 * Restore ROS_DOMAIN_ID after isolation is finished (`#58 <https://github.com/ros2/ament_cmake_ros/issues/58>`_)
