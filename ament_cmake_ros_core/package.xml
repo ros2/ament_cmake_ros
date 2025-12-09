@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>ament_cmake_ros_core</name>
-  <version>0.15.5</version>
+  <version>0.15.6</version>
   <description>Core ROS specific CMake bits in the ament buildsystem.</description>
 
   <maintainer email="brandon@openrobotics.org">Brandon Ong</maintainer>
