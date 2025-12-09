@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>domain_coordinator</name>
-  <version>0.14.6</version>
+  <version>0.14.7</version>
   <description>A tool to coordinate unique ROS_DOMAIN_IDs across multiple processes</description>
 
   <maintainer email="brandon@openrobotics.org">Brandon Ong</maintainer>
