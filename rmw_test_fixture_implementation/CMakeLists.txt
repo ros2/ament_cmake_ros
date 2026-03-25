@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(rmw_test_fixture_implementation LANGUAGES C CXX)
 
-# Default to C++17
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
-endif()
-
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
@@ -50,6 +45,7 @@ target_compile_definitions(rmw_test_fixture_implementation PRIVATE
   "RMW_TEST_FIXTURE_BUILDING_DLL"
 )
 target_link_libraries(rmw_test_fixture_implementation PRIVATE
+  ament_cmake_ros_core::ament_ros_defaults
   rcpputils::rcpputils
   rcutils::rcutils
   rmw::rmw
@@ -72,6 +68,7 @@ add_executable(run_rmw_isolated
   src/run_rmw_isolated.c
 )
 target_link_libraries(run_rmw_isolated
+  ament_cmake_ros_core::ament_ros_defaults
   rcutils::rcutils
   rmw_test_fixture_implementation
 )
@@ -94,6 +91,7 @@ if(WIN32 AND CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 target_link_libraries(_rmw_test_fixture_implementation PRIVATE
+  ament_cmake_ros_core::ament_ros_defaults
   rcutils::rcutils
   rmw::rmw
   rmw_test_fixture_implementation
