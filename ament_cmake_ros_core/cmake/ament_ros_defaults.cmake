@@ -19,7 +19,7 @@ set_property(TARGET ament_ros_cxx_standard PROPERTY
 )
 
 add_library(ament_ros_c_standard INTERFACE)
-target_compile_features(ament_ros_c_standard INTERFACE c_std_11)
+target_compile_features(ament_ros_c_standard INTERFACE c_std_17)
 set_property(TARGET ament_ros_c_standard PROPERTY
   C_STANDARD_REQUIRED YES
 )
@@ -27,7 +27,6 @@ set_property(TARGET ament_ros_c_standard PROPERTY
 # Leaving blank for now but, adding here so if we wanted to unify in the future we can
 add_library(ament_ros_warnings INTERFACE)
 target_compile_options(ament_ros_warnings INTERFACE)
-
 
 add_library(ament_ros_defaults INTERFACE)
 
