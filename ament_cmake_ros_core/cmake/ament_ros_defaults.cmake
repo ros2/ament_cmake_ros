@@ -28,13 +28,21 @@ set_property(TARGET ament_ros_c_standard PROPERTY
 add_library(ament_ros_warnings INTERFACE)
 target_compile_options(ament_ros_warnings INTERFACE)
 
-add_library(ament_ros_defaults INTERFACE)
+add_library(ament_ros_build_settings INTERFACE)
+target_compile_definitions(ament_ros_build_settings INTERFACE
+  $<$<BOOL:${BUILD_SHARED_LIBS}>:BUILD_SHARED_LIBS=1>
+)
 
-# TODO: Should BUILD_SHARED_LIBS and DROS_PACKAGE_NAME get set by this?
-# Or is forcing downstream users to update to disruptive at this time.
-# Maybe have users adopt ament_ros_defaults for 2-4 releases then move inside?
+add_library(ament_ros_package_name INTERFACE)
+target_compile_definitions(ament_ros_package_name INTERFACE
+  ROS_PACKAGE_NAME="${PROJECT_NAME}"
+)
+
+add_library(ament_ros_defaults INTERFACE)
 target_link_libraries(ament_ros_defaults INTERFACE
   ament_ros_cxx_standard
   ament_ros_c_standard
   ament_ros_warnings
+  ament_ros_build_settings
+  ament_ros_package_name
 )
