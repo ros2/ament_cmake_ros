@@ -43,6 +43,4 @@ target_link_libraries(ament_ros_defaults INTERFACE
   ament_ros_cxx_standard
   ament_ros_c_standard
   ament_ros_warnings
-  ament_ros_build_settings
-  ament_ros_package_name
 )
