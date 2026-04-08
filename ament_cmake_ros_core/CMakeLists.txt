@@ -20,9 +20,6 @@ install(
     ament_ros_defaults
     ament_ros_cxx_standard
     ament_ros_c_standard
-    ament_ros_warnings
-    ament_ros_build_settings
-    ament_ros_package_name
   EXPORT ament_ros_core_targets
 )
 

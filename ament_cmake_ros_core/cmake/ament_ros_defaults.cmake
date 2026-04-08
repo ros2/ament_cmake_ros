@@ -14,33 +14,12 @@
 
 add_library(ament_ros_cxx_standard INTERFACE)
 target_compile_features(ament_ros_cxx_standard INTERFACE cxx_std_20)
-set_property(TARGET ament_ros_cxx_standard PROPERTY
-  CXX_STANDARD_REQUIRED YES
-)
 
 add_library(ament_ros_c_standard INTERFACE)
 target_compile_features(ament_ros_c_standard INTERFACE c_std_17)
-set_property(TARGET ament_ros_c_standard PROPERTY
-  C_STANDARD_REQUIRED YES
-)
-
-# Leaving blank for now but, adding here so if we wanted to unify in the future we can
-add_library(ament_ros_warnings INTERFACE)
-target_compile_options(ament_ros_warnings INTERFACE)
-
-add_library(ament_ros_build_settings INTERFACE)
-target_compile_definitions(ament_ros_build_settings INTERFACE
-  $<$<BOOL:${BUILD_SHARED_LIBS}>:BUILD_SHARED_LIBS=1>
-)
-
-add_library(ament_ros_package_name INTERFACE)
-target_compile_definitions(ament_ros_package_name INTERFACE
-  ROS_PACKAGE_NAME="${PROJECT_NAME}"
-)
 
 add_library(ament_ros_defaults INTERFACE)
 target_link_libraries(ament_ros_defaults INTERFACE
   ament_ros_cxx_standard
   ament_ros_c_standard
-  ament_ros_warnings
 )
