@@ -2,6 +2,11 @@
 Changelog for package rmw_test_fixture_implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.15.7 (2026-04-20)
+-------------------
+* Add `ament_ros_defaults` target (`#62 <https://github.com/ros2/ament_cmake_ros/issues/62>`_)
+* Contributors: Michael Carlstrom
+
 0.15.6 (2025-12-09)
 -------------------
 * Drop dependency group dependency on test fixtures (`#60 <https://github.com/ros2/ament_cmake_ros/issues/60>`_)
