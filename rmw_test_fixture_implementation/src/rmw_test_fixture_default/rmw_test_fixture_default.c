@@ -64,6 +64,8 @@ static bool g_random_seed_initialized = false;
 
 static char *g_restore_domain_id = NULL;
 
+static char *g_restore_localhost_only = NULL;
+
 static
 void
 port_lock_fini(port_lock_t lock)
@@ -176,7 +178,8 @@ rmw_test_isolation_start_default(void)
   }
 
   uint16_t slot;
-  g_lock = port_lock_init(32769, 32870, &slot);
+  // Increase range to 231 IDs to reduce collision probability in large CI
+  g_lock = port_lock_init(32769, 33000, &slot);
   if (INVALID_PORT_LOCK == g_lock) {
     fprintf(stderr, "Failed to acquire port lock\n");
     return RMW_RET_ERROR;
@@ -185,9 +188,17 @@ rmw_test_isolation_start_default(void)
   // Avoid ROS_DOMAIN_ID=0 entirely
   slot += 1;
 
-  const char *old_env_val;
-  if (NULL != rcutils_get_env("ROS_DOMAIN_ID", &old_env_val)) {
+  const char *old_domain_id;
+  if (NULL != rcutils_get_env("ROS_DOMAIN_ID", &old_domain_id)) {
     fprintf(stderr, "Failed to get ROS_DOMAIN_ID\n");
+    port_lock_fini(g_lock);
+    g_lock = INVALID_PORT_LOCK;
+    return RMW_RET_ERROR;
+  }
+
+  const char *old_localhost_only;
+  if (NULL != rcutils_get_env("ROS_LOCALHOST_ONLY", &old_localhost_only)) {
+    fprintf(stderr, "Failed to get ROS_LOCALHOST_ONLY\n");
     port_lock_fini(g_lock);
     g_lock = INVALID_PORT_LOCK;
     return RMW_RET_ERROR;
@@ -198,13 +209,24 @@ rmw_test_isolation_start_default(void)
     allocator.deallocate(g_restore_domain_id, allocator.state);
     g_restore_domain_id = NULL;
   }
-  if (strlen(old_env_val) > 0) {
-    // rcutils_get_env yields an empty string if the variable is not set.
-    // An empty ROS_DOMAIN_ID is not valid, so we should interpret an empty
-    // value as "unset" and therefore pass NULL to rcutils_set_env on stop.
-    g_restore_domain_id = rcutils_strdup(old_env_val, allocator);
+  if (strlen(old_domain_id) > 0) {
+    g_restore_domain_id = rcutils_strdup(old_domain_id, allocator);
     if (NULL == g_restore_domain_id) {
       fprintf(stderr, "Failed save old ROS_DOMAIN_ID\n");
+      port_lock_fini(g_lock);
+      g_lock = INVALID_PORT_LOCK;
+      return RMW_RET_ERROR;
+    }
+  }
+
+  if (NULL != g_restore_localhost_only) {
+    allocator.deallocate(g_restore_localhost_only, allocator.state);
+    g_restore_localhost_only = NULL;
+  }
+  if (strlen(old_localhost_only) > 0) {
+    g_restore_localhost_only = rcutils_strdup(old_localhost_only, allocator);
+    if (NULL == g_restore_localhost_only) {
+      fprintf(stderr, "Failed save old ROS_LOCALHOST_ONLY\n");
       port_lock_fini(g_lock);
       g_lock = INVALID_PORT_LOCK;
       return RMW_RET_ERROR;
@@ -229,6 +251,13 @@ rmw_test_isolation_start_default(void)
 
   allocator.deallocate(env_val, &allocator.state);
 
+  if (!rcutils_set_env("ROS_LOCALHOST_ONLY", "1")) {
+    fprintf(stderr, "Failed to update ROS_LOCALHOST_ONLY\n");
+    port_lock_fini(g_lock);
+    g_lock = INVALID_PORT_LOCK;
+    return RMW_RET_ERROR;
+  }
+
   return RMW_RET_OK;
 }
 
@@ -243,6 +272,16 @@ rmw_test_isolation_stop_default(void)
     rcutils_allocator_t allocator = rcutils_get_default_allocator();
     allocator.deallocate(g_restore_domain_id, allocator.state);
     g_restore_domain_id = NULL;
+  }
+
+  if (!rcutils_set_env("ROS_LOCALHOST_ONLY", g_restore_localhost_only)) {
+    fprintf(stderr, "Failed to restore ROS_LOCALHOST_ONLY\n");
+  }
+
+  if (NULL != g_restore_localhost_only) {
+    rcutils_allocator_t allocator = rcutils_get_default_allocator();
+    allocator.deallocate(g_restore_localhost_only, allocator.state);
+    g_restore_localhost_only = NULL;
   }
 
   port_lock_fini(g_lock);
