@@ -240,6 +240,9 @@ static rcutils_ret_t fini_array_and_contents(rcutils_array_list_t *array_list)
 static rmw_ret_t reload_environ(void)
 {
 #ifndef _WIN32
+  // Mask signals during environment reload to prevent fatal Python errors
+  // (init_import_site: Failed to import the site module) caused by signals
+  // interrupting sub-interpreter initialization.
   sigset_t set, oldset;
   sigemptyset(&set);
   sigaddset(&set, SIGINT);
