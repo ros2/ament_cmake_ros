@@ -14,6 +14,10 @@
 
 #include <stdbool.h>
 
+#ifndef _WIN32
+#include <signal.h>
+#endif
+
 #include <Python.h>
 
 #include <rcutils/allocator.h>
@@ -235,10 +239,24 @@ static rcutils_ret_t fini_array_and_contents(rcutils_array_list_t *array_list)
  */
 static rmw_ret_t reload_environ(void)
 {
+#ifndef _WIN32
+  // Mask signals during environment reload to prevent fatal Python errors
+  // (init_import_site: Failed to import the site module) caused by signals
+  // interrupting sub-interpreter initialization.
+  sigset_t set, oldset;
+  sigemptyset(&set);
+  sigaddset(&set, SIGINT);
+  sigaddset(&set, SIGTERM);
+  sigprocmask(SIG_BLOCK, &set, &oldset);
+#endif
+
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rcutils_array_list_t pairs = rcutils_get_zero_initialized_array_list();
   rcutils_ret_t ret = rcutils_array_list_init(&pairs, 16, sizeof(rcutils_char_array_t), &allocator);
   if (ret) {
+#ifndef _WIN32
+    sigprocmask(SIG_SETMASK, &oldset, NULL);
+#endif
     return rmw_convert_rcutils_ret_to_rmw_ret(ret);
   }
 
@@ -248,12 +266,18 @@ static rmw_ret_t reload_environ(void)
   PyThreadState_Swap(orig_state);
   if (ret) {
     fini_array_and_contents(&pairs);
+#ifndef _WIN32
+    sigprocmask(SIG_SETMASK, &oldset, NULL);
+#endif
     return rmw_convert_rcutils_ret_to_rmw_ret(ret);
   }
 
   PyObject *os = PyImport_ImportModule("os");
   if (NULL == os) {
     fini_array_and_contents(&pairs);
+#ifndef _WIN32
+    sigprocmask(SIG_SETMASK, &oldset, NULL);
+#endif
     return RMW_RET_ERROR;
   }
 
@@ -261,6 +285,9 @@ static rmw_ret_t reload_environ(void)
   Py_DECREF(os);
   if (NULL == os_environ) {
     fini_array_and_contents(&pairs);
+#ifndef _WIN32
+    sigprocmask(SIG_SETMASK, &oldset, NULL);
+#endif
     return RMW_RET_ERROR;
   }
 
@@ -268,12 +295,19 @@ static rmw_ret_t reload_environ(void)
   if (NULL == res) {
     Py_DECREF(os_environ);
     fini_array_and_contents(&pairs);
+#ifndef _WIN32
+    sigprocmask(SIG_SETMASK, &oldset, NULL);
+#endif
     return RMW_RET_ERROR;
   }
 
   ret = pair_list_to_py_mapping(&pairs, os_environ);
   Py_DECREF(os_environ);
   fini_array_and_contents(&pairs);
+
+#ifndef _WIN32
+  sigprocmask(SIG_SETMASK, &oldset, NULL);
+#endif
 
   return rmw_convert_rcutils_ret_to_rmw_ret(ret);
 }
@@ -322,7 +356,7 @@ static PyMethodDef module_methods[] = {
 
 static struct PyModuleDef module = {
   PyModuleDef_HEAD_INIT,
-  "_rmw_test_fixtupre_implementation",
+  "_rmw_test_fixture_implementation",
   NULL,
   -1,
   module_methods,
