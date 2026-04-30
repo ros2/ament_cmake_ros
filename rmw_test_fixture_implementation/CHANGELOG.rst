@@ -2,6 +2,11 @@
 Changelog for package rmw_test_fixture_implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Block signals during Python environment reload in rmw_test_fixture_implementation (`#64 <https://github.com/ros2/ament_cmake_ros/issues/64>`_)
+* Contributors: Michael Carroll
+
 0.15.7 (2026-04-20)
 -------------------
 * Add `ament_ros_defaults` target (`#62 <https://github.com/ros2/ament_cmake_ros/issues/62>`_)
