@@ -1,5 +1,6 @@
 find_package(ament_cmake_gtest REQUIRED)
 find_package(ament_cmake_pytest REQUIRED)
+find_package(ament_cmake_ros_core REQUIRED)
 
 add_library(rmw_mockmock_test_fixture SHARED
   rmw_mockmock_test_fixture.c
@@ -11,6 +12,7 @@ target_compile_definitions(rmw_mockmock_test_fixture PRIVATE
 
 target_link_libraries(rmw_mockmock_test_fixture
   PRIVATE
+    ament_cmake_ros_core::ament_ros_defaults
     rcutils::rcutils
     rmw_test_fixture::rmw_test_fixture
 )
@@ -24,6 +26,7 @@ ament_add_gtest(test_fixture_start_stop
 )
 
 target_link_libraries(test_fixture_start_stop
+  ament_cmake_ros_core::ament_ros_defaults
   rcpputils::rcpputils
   rmw_test_fixture::rmw_test_fixture
   rmw_test_fixture_implementation
