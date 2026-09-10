@@ -2,6 +2,11 @@
 Changelog for package ament_cmake_ros_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.14.8 (2026-09-10)
+-------------------
+* Add `ament_ros_defaults` target (manual Kilted backport of `#62 <https://github.com/ros2/ament_cmake_ros/issues/62>`_) (`#66 <https://github.com/ros2/ament_cmake_ros/issues/66>`_)
+* Contributors: Martin Pecka
+
 0.14.7 (2025-12-09)
 -------------------
 
