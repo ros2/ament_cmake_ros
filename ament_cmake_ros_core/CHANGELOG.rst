@@ -2,6 +2,11 @@
 Changelog for package ament_cmake_ros_core
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.16.1 (2026-10-22)
+-------------------
+* Use the SPDX identifier Apache-2.0 in license declarations (`#69 <https://github.com/ros2/ament_cmake_ros//issues/69>`_)
+* Contributors: Michael Carroll
+
 0.16.0 (2026-05-07)
 -------------------
 
